@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <style type="text/css">
+        .item {
+            width: 150px;
+            height: 150px;
+            background-size:100%;
+            background-repeat: no-repeat;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            height: 200px;
+            width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .active {
+            border: 2px solid red;
+        }
+        
+    </style>
+</head>
+<body style="background: url(Background.jpeg); background-size: cover;">
+    <h1 style="color: white;">Time: <span class="Time" style="color: white;">10</span></h1>
+    <div class="row">
+    </div>
+    <script type="text/javascript">
+    //див-родитель
+    let row = document.querySelector(".row");
+    let time = document.querySelector('.Time');
+    let step = 0
+    let past_img
+    let T = 10
+    let point = 0
+
+    //хранение картинок
+    let images = ["1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "1.png", "2.png", "3.png", "4.png", "5.png", "6.png"];
+
+    for(i=0; i<12; i++) {
+        let item = document.createElement('div')
+        row.appendChild(item)
+        item.classList.add('item')
+        let index = Math.round(Math.random()*(images.length-1))
+        item.style.backgroundImage = 'url(' + images[index] + ')'
+        images.splice(index,1)
+        item.onclick = function() {
+            step = step + 1
+            item.classList.add('active')
+
+            if (step == 1) {
+                past_img = item.style.backgroundImage
+                firstDiv = item
+            }
+
+            if (step>=2){
+            
+            if(item.style.backgroundImage == past_img){
+                item.style.opacity = '0'
+                firstDiv.style.opacity = '0'
+                point = point + 1
+                step = 0
+            }else {
+                item.classList.remove('active')
+                firstDiv.classList.remove('active')
+                step = 0
+            }
+        }
+    }
+}
+
+
+    let Endgame = function() {
+        time.innerHTML = 0
+        clearInterval(interval1) 
+        if(point==6) {
+            alert('win')
+        }else{
+            alert('lose')
+        }
+    }
+
+    let Timer = function(){
+        T = T - 1
+        time.innerHTML = T
+    }
+    interval1 = setInterval(Timer, 1000) 
+    setTimeout(Endgame, 10000)         
+    </script>
+</body>
+</html>
